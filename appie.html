@@ -1,0 +1,996 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+    <title>Abdullah Abarkach | Presentation</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,500;14..32,600;14..32,700&family=Playfair+Display:wght@500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        /* Tifinagh font support */
+        .tifinagh, [lang="ber"] {
+            font-family: 'Ebrima', 'Segoe UI', 'Noto Sans Tifinagh', 'Tifinagh', system-ui, sans-serif;
+        }
+
+        :root {
+            --bg-light: #eef5ff;
+            --text-light: #1a2c3e;
+            --text-muted-light: #2c4c6e;
+            --neon-blue: #00b4d8;
+            --neon-blue-dark: #0077b6;
+            --neon-blue-light: #90e0ef;
+            --accent-glow: rgba(0,180,216,0.3);
+            --shadow-sm: 0 8px 20px rgba(0,0,0,0.05);
+            --shadow-md: 0 20px 35px -10px rgba(0,0,0,0.1);
+            --transition: all 0.3s cubic-bezier(0.2, 0.9, 0.4, 1.1);
+        }
+
+        body.dark {
+            --bg-light: #0a1a2a;
+            --text-light: #e8f0fe;
+            --text-muted-light: #b8d0e8;
+            --neon-blue: #00d4ff;
+            --neon-blue-dark: #0096c7;
+            --neon-blue-light: #48cae4;
+            --accent-glow: rgba(0,212,255,0.25);
+        }
+
+        body {
+            background: var(--bg-light);
+            color: var(--text-light);
+            font-family: 'Inter', sans-serif;
+            overflow: hidden;
+            transition: background 0.3s, color 0.2s;
+            position: relative;
+        }
+
+        /* Animated gradient background */
+        body::before {
+            content: '';
+            position: fixed;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle at 30% 40%, var(--accent-glow) 0%, transparent 60%),
+                        radial-gradient(circle at 70% 80%, rgba(0,116,178,0.15) 0%, transparent 60%);
+            animation: slowRotate 30s infinite alternate;
+            pointer-events: none;
+            z-index: 0;
+        }
+        @keyframes slowRotate {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(8deg); }
+        }
+
+        .top-bar {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            z-index: 1000;
+            display: flex;
+            gap: 12px;
+            background: rgba(0,0,0,0.3);
+            backdrop-filter: blur(12px);
+            padding: 6px 16px;
+            border-radius: 60px;
+            box-shadow: var(--shadow-sm);
+            border: 1px solid rgba(255,255,255,0.2);
+        }
+
+        .btn-icon, .lang-picker {
+            background: transparent;
+            border: none;
+            font-size: 0.9rem;
+            cursor: pointer;
+            padding: 6px 12px;
+            border-radius: 40px;
+            color: var(--text-light);
+            transition: 0.2s;
+            font-weight: 500;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .btn-icon:hover, .lang-picker:hover {
+            background: var(--neon-blue);
+            color: white;
+            box-shadow: 0 0 8px var(--neon-blue);
+        }
+
+        .lang-picker {
+            border: 1px solid rgba(255,255,255,0.3);
+            font-family: inherit;
+        }
+
+        .slider {
+            display: flex;
+            height: 100vh;
+            width: 100vw;
+            transition: transform 0.6s var(--transition);
+        }
+
+        .slide {
+            min-width: 100vw;
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 5% 10%;
+            position: relative;
+            z-index: 1;
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 0.6s ease 0.2s, transform 0.6s ease 0.2s;
+            overflow-y: auto;
+        }
+
+        .slide.active {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .slide-card {
+            max-width: 1000px;
+            width: 100%;
+            margin: 0 auto;
+            text-align: center;
+            position: relative;
+            z-index: 2;
+        }
+
+        /* Improved profile photo */
+        .profile-img {
+            width: 150px;
+            height: 150px;
+            border-radius: 50%;
+            object-fit: cover;
+            margin-bottom: 1rem;
+            border: 4px solid var(--neon-blue);
+            box-shadow: 0 0 20px var(--neon-blue);
+            transition: var(--transition);
+        }
+        .profile-img:hover {
+            transform: scale(1.05);
+            box-shadow: 0 0 35px var(--neon-blue);
+        }
+
+        /* Improved cat photo frame */
+        .cat-img {
+            width: 160px;
+            height: 160px;
+            border-radius: 50%;
+            object-fit: cover;
+            margin: 1rem auto;
+            cursor: pointer;
+            border: 3px solid white;
+            outline: 3px solid var(--neon-blue);
+            box-shadow: 0 0 15px var(--neon-blue);
+            transition: var(--transition);
+        }
+        .cat-img:hover {
+            transform: scale(1.02);
+            box-shadow: 0 0 25px var(--neon-blue);
+        }
+
+        .title {
+            font-family: 'Playfair Display', serif;
+            font-size: clamp(2rem, 6vw, 3.5rem);
+            font-weight: 800;
+            background: linear-gradient(135deg, var(--neon-blue-dark), var(--neon-blue), var(--neon-blue-light));
+            background-clip: text;
+            -webkit-background-clip: text;
+            color: transparent;
+            margin-bottom: 1.2rem;
+            letter-spacing: -0.02em;
+            text-shadow: 0 0 5px rgba(0,180,216,0.3);
+            animation: floatText 4s ease-in-out infinite;
+        }
+        @keyframes floatText {
+            0% { transform: translateY(0px); }
+            50% { transform: translateY(-5px); }
+            100% { transform: translateY(0px); }
+        }
+
+        .subtitle {
+            font-size: 1.2rem;
+            line-height: 1.5;
+            color: var(--text-muted-light);
+            text-align: center;
+            margin-bottom: 2rem;
+            max-width: 80%;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .grid {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 2rem;
+            justify-content: center;
+            margin: 2rem 0 1rem;
+        }
+
+        .card {
+            background: transparent;
+            border: none;
+            padding: 0.5rem;
+            text-align: center;
+            flex: 1;
+            min-width: 160px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+        .card:hover {
+            transform: translateY(-6px);
+            text-shadow: 0 0 5px var(--neon-blue);
+        }
+        .card h3 {
+            font-size: 1.8rem;
+            font-family: 'Playfair Display', serif;
+            color: var(--neon-blue-dark);
+            margin-bottom: 0.5rem;
+        }
+        .card p {
+            color: var(--text-muted-light);
+            font-size: 0.9rem;
+        }
+
+        .btn-group {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 1rem;
+            margin-top: 2rem;
+        }
+
+        .special-btn {
+            background: var(--neon-blue);
+            border: none;
+            color: white;
+            font-size: 0.95rem;
+            padding: 0.8rem 1.8rem;
+            border-radius: 60px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.25s ease;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.6rem;
+            box-shadow: 0 0 8px var(--neon-blue);
+        }
+        .special-btn:hover {
+            background: var(--neon-blue-dark);
+            transform: scale(1.03);
+            box-shadow: 0 0 15px var(--neon-blue);
+        }
+        .special-btn:active {
+            transform: scale(0.97);
+        }
+
+        /* Gallery improvements */
+        .gallery {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1.5rem;
+            justify-content: center;
+            margin-top: 1.8rem;
+        }
+        .gallery img {
+            width: 190px;
+            height: 150px;
+            object-fit: cover;
+            border-radius: 32px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.2);
+            border: 2px solid white;
+        }
+        .gallery img:hover {
+            transform: scale(1.05);
+            box-shadow: 0 0 20px var(--neon-blue);
+            border-color: var(--neon-blue);
+        }
+        .gallery-hint {
+            font-size: 0.7rem;
+            margin-top: 0.5rem;
+            color: var(--text-muted-light);
+            opacity: 0.7;
+        }
+
+        .family-tree {
+            background: transparent;
+            padding: 1rem;
+            margin: 1.5rem auto;
+            text-align: left;
+            font-family: monospace;
+            font-size: 1rem;
+            line-height: 1.7;
+            display: inline-block;
+            width: auto;
+            color: var(--text-light);
+        }
+
+        /* Moroccan flag */
+        .flag-icon {
+            width: 80px;
+            height: auto;
+            margin: 1rem auto;
+            display: block;
+            border-radius: 12px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+            transition: var(--transition);
+        }
+        .flag-icon:hover {
+            transform: scale(1.05);
+            box-shadow: 0 0 15px var(--neon-blue);
+        }
+
+        .bubble-field {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 0;
+            overflow: hidden;
+        }
+        .q-bubble {
+            position: absolute;
+            padding: 6px 16px;
+            border-radius: 60px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            opacity: 0.3;
+            animation: floatUp 12s linear infinite;
+            white-space: nowrap;
+            background: var(--neon-blue);
+            color: white;
+            box-shadow: 0 0 8px var(--neon-blue);
+        }
+
+        @keyframes floatUp {
+            0% {
+                bottom: -30px;
+                opacity: 0.3;
+                transform: translateX(0);
+            }
+            100% {
+                bottom: 110%;
+                opacity: 0;
+                transform: translateX(25px);
+            }
+        }
+
+        /* Modal improvements for all images */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.85);
+            z-index: 2000;
+            justify-content: center;
+            align-items: center;
+            backdrop-filter: blur(8px);
+        }
+        .modal-content {
+            background: rgba(0,0,0,0.7);
+            backdrop-filter: blur(12px);
+            padding: 2rem;
+            border-radius: 56px;
+            max-width: 550px;
+            width: 90%;
+            text-align: center;
+            border: 1px solid var(--neon-blue);
+            box-shadow: 0 0 30px rgba(0,180,216,0.3);
+            color: white;
+        }
+        .modal-content h3 {
+            color: var(--neon-blue);
+            margin-bottom: 1rem;
+            font-size: 1.8rem;
+        }
+        .modal-img {
+            max-width: 100%;
+            border-radius: 28px;
+            margin: 1rem 0;
+            border: 2px solid var(--neon-blue);
+            box-shadow: 0 0 15px var(--neon-blue);
+            transition: var(--transition);
+        }
+        .close-modal {
+            background: var(--neon-blue);
+            border: none;
+            padding: 0.6rem 1.8rem;
+            border-radius: 60px;
+            color: white;
+            cursor: pointer;
+            margin-top: 1.5rem;
+            font-weight: 600;
+            transition: 0.2s;
+        }
+        .close-modal:hover {
+            background: var(--neon-blue-dark);
+        }
+
+        .progress-bar {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            height: 4px;
+            background: linear-gradient(90deg, var(--neon-blue-dark), var(--neon-blue-light));
+            width: 0%;
+            transition: width 0.3s ease;
+            z-index: 200;
+            box-shadow: 0 0 8px var(--neon-blue);
+        }
+        .dots {
+            position: fixed;
+            bottom: 24px;
+            right: 24px;
+            display: flex;
+            gap: 10px;
+            z-index: 100;
+        }
+        .dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: var(--text-muted-light);
+            opacity: 0.5;
+            cursor: pointer;
+            transition: 0.2s;
+        }
+        .dot.active {
+            opacity: 1;
+            background: var(--neon-blue);
+            width: 28px;
+            border-radius: 12px;
+            box-shadow: 0 0 5px var(--neon-blue);
+        }
+        .nav-hint {
+            position: fixed;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: rgba(0,0,0,0.4);
+            backdrop-filter: blur(8px);
+            padding: 5px 14px;
+            border-radius: 40px;
+            font-size: 0.7rem;
+            color: white;
+            border: 1px solid rgba(255,255,255,0.3);
+            white-space: nowrap;
+            z-index: 99;
+        }
+
+        @keyframes fadeUp {
+            0% {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            100% {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        .slide.active .slide-card {
+            animation: fadeUp 0.6s var(--transition) forwards;
+        }
+
+        @media (max-width: 640px) {
+            .slide { padding: 5% 5%; }
+            .card { min-width: 120px; }
+            .card h3 { font-size: 1.3rem; }
+            .gallery img { width: 130px; height: 100px; }
+            .special-btn { font-size: 0.8rem; padding: 0.5rem 1.2rem; }
+            .subtitle { font-size: 1rem; max-width: 95%; }
+            .profile-img { width: 100px; height: 100px; }
+            .cat-img { width: 110px; height: 110px; }
+        }
+    </style>
+</head>
+<body>
+
+<div class="top-bar">
+    <button class="btn-icon" id="themeToggle"><i class="fas fa-moon"></i> <span>Mode</span></button>
+    <select id="langSelect" class="lang-picker">
+        <option value="en">🇬🇧 English</option>
+        <option value="nl">🇳🇱 Nederlands</option>
+        <option value="ar">🇸🇦 العربية</option>
+        <option value="ber">ⵜⴰⵎⴰⵣⵉⵖⵜ (Tifinagh)</option>
+    </select>
+</div>
+
+<div class="progress-bar" id="progressBar"></div>
+<div class="nav-hint" id="hintMsg"><i class="fas fa-arrow-left"></i> <i class="fas fa-arrow-right"></i> Navigate</div>
+<div class="dots" id="dotsContainer"></div>
+
+<div class="slider" id="slider"></div>
+
+<div id="dynamicModal" class="modal">
+    <div class="modal-content">
+        <h3 id="modalTitle"></h3>
+        <div id="modalBody"></div>
+        <button class="close-modal" id="closeModalBtn">Close</button>
+    </div>
+</div>
+
+<script>
+    // Personal data – updated image URLs
+    const personal = {
+        name: "Abdullah Abarkach",
+        profileImg: "https://i.ibb.co/rKKMp3R4/image.jpg",
+        catImg: "https://i.ibb.co/VWWxBcGD/image.jpg",
+        moroccoFlag: "https://flagcdn.com/w320/ma.png",
+        age: "13",
+        birthplace: "Amsterdam-West",
+        family: {
+            text: "My family: father, mother, an older brother, me, a younger brother and a younger sister.",
+            tree: `👨‍👩‍👧‍👦 Parents\n   ├── 👦 Older brother\n   ├── 👦 Abdullah (me)\n   ├── 👦 Younger brother\n   └── 👧 Younger sister`
+        },
+        pet: "Miesh Miesh (cat)",
+        school: "Avantis College, grade 1",
+        favoriteSubject: "English",
+        hobbies: [
+            { icon: "🏀", name: "Basketball", desc: "Sport & teamwork", why: "Basketball is fast and dynamic. I love playing it with friends.", img: "https://i.ibb.co/xth45RH0/basketball-2258651-1280.jpg" },
+            { icon: "🤝", name: "Chilling", desc: "Relaxing with friends", why: "Being together, laughing and doing fun things without stress.", img: "https://i.ibb.co/q3JyFXV4/XXj3yg9qd-Wgang-m.jpg" },
+            { icon: "⚽", name: "Football", desc: "Sporty", why: "I play football often on the schoolyard. It's just fun.", img: "https://i.ibb.co/S4Nj9H1r/fc-barcelona-tickets-880x660.jpg" }
+        ],
+        dreams: [
+            "👨‍💼 Start my own business",
+            "✈️ Travel to many countries",
+            "🏀 Play basketball professionally? Maybe!",
+            "💻 Learn programming to make apps"
+        ],
+        favoriteFood: "TACOS",
+        tacoImg: "https://i.ibb.co/Y42JkwdR/Beef-Tacos-1024x767.webp",
+        vacationPhotos: [
+            "https://i.ibb.co/tpKVRLYJ/d6283b9aa5a014c419b45b79de06fa9b.jpg",
+            "https://i.ibb.co/q3DcKyLF/download.jpg"
+        ],
+        description: "Others say I am usually funny and social, but it depends on who I'm with.",
+        funFacts: [
+            "🏀 Basketball is my favorite sport!",
+            "🌮 Tacos are the best food ever!",
+            "🇲🇦 Moroccan beaches are beautiful.",
+            "🐱 My cat's name is Miesh Miesh.",
+            "📚 English is my favorite subject.",
+            "💡 I want to start my own business one day.",
+            "😂 I am funny and social.",
+            "🎂 I am 13 years old.",
+            "📍 I was born in Amsterdam-West.",
+            "🤝 Chilling with friends is the best.",
+            "🏀 I play basketball every week on the square.",
+            "🌮 I love tacos with cheese."
+        ],
+        bubbleMessages: ["?Why?", "?How?", "?Tell me!", "?Really?", "?Cool!", "?What else?", "?When?", "?Where?"]
+    };
+
+    // Translations – dream removed from school slide
+    const translations = {
+        en: {
+            hint: "←  →  arrows or swipe",
+            slides: [
+                { title: `👋 Hello, I'm ${personal.name}`, subtitle: `Welcome to my presentation. This is my story.`, profile: true },
+                { title: "🌍 About me", subtitle: `I am ${personal.age} years old, born in <strong>${personal.birthplace}</strong>. My cat's name is ${personal.pet}.`, cat: true },
+                { title: "🎓 School", subtitle: `<strong>${personal.school}</strong> · Favorite subject: <strong>${personal.favoriteSubject}</strong>` }, // dream removed
+                { title: "🏀 My hobbies", subtitle: "Click on a hobby to learn more!", hobbiesList: true },
+                { title: "🌟 My dreams", subtitle: "What I want to achieve in the future:", dreamsList: true },
+                { title: "👨‍👩‍👧‍👦 My family", subtitle: personal.family.text, familySlide: true },
+                { title: "🌮 Favorite food", subtitle: `I love <strong>${personal.favoriteFood}</strong>! Click the button.`, foodSlide: true },
+                { title: "🏖️ Best holiday", subtitle: `The beaches of <strong>Morocco</strong> were unforgettable.`, vacationSlide: true },
+                { title: "✨ Thank you", subtitle: `How do others describe me? ${personal.description}`, finalSlide: true }
+            ],
+            hobbies: personal.hobbies,
+            dreams: personal.dreams,
+            foodTitle: "🌮 Tacos!",
+            familyTitle: "Family tree",
+            familyMessage: personal.family.text,
+            familyTree: personal.family.tree,
+            surpriseTitle: "🎉 Did you know?",
+            surpriseBtnText: "🎲 Surprise me",
+            restartBtnText: "⟳ Restart",
+            foodBtnText: "🌮 See photo",
+            familyBtnText: "🌳 Show tree",
+            vacationTitle: "🏖️ Morocco",
+            factLabel: "💡 Did you know?"
+        },
+        nl: {
+            hint: "←  →  pijltjes of swipe",
+            slides: [
+                { title: `👋 Hallo, ik ben ${personal.name}`, subtitle: `Welkom bij mijn presentatie. Dit is mijn verhaal.`, profile: true },
+                { title: "🌍 Over mij", subtitle: `Ik ben ${personal.age} jaar, geboren in <strong>${personal.birthplace}</strong>. Mijn kat heet ${personal.pet}.`, cat: true },
+                { title: "🎓 School", subtitle: `<strong>${personal.school}</strong> · Lievelingsvak: <strong>${personal.favoriteSubject}</strong>` }, // dream removed
+                { title: "🏀 Mijn hobby's", subtitle: "Klik op een hobby om meer te weten!", hobbiesList: true },
+                { title: "🌟 Mijn dromen", subtitle: "Dit wil ik later bereiken:", dreamsList: true },
+                { title: "👨‍👩‍👧‍👦 Mijn familie", subtitle: personal.family.text, familySlide: true },
+                { title: "🌮 Lievelingseten", subtitle: `Ik ben dol op <strong>${personal.favoriteFood}</strong>! Klik op de knop.`, foodSlide: true },
+                { title: "🏖️ Mooiste vakantie", subtitle: `De stranden van <strong>Marokko</strong> waren onvergetelijk.`, vacationSlide: true },
+                { title: "✨ Bedankt", subtitle: `Hoe omschrijven anderen mij? ${personal.description}`, finalSlide: true }
+            ],
+            hobbies: personal.hobbies.map(h => ({ ...h, name: h.name === "Basketball" ? "Basketbal" : h.name === "Chilling" ? "Chillen" : "Voetbal" })),
+            dreams: [
+                "👨‍💼 Eigen bedrijf starten",
+                "✈️ Reizen naar veel landen",
+                "🏀 Professioneel basketballen? Misschien!",
+                "💻 Programmeren leren om apps te maken"
+            ],
+            foodTitle: "🌮 Taco's!",
+            familyTitle: "Stamboom",
+            familyMessage: personal.family.text,
+            familyTree: personal.family.tree,
+            surpriseTitle: "🎉 Weetje",
+            surpriseBtnText: "🎲 Verras mij",
+            restartBtnText: "⟳ Opnieuw",
+            foodBtnText: "🌮 Bekijk foto",
+            familyBtnText: "🌳 Bekijk stamboom",
+            vacationTitle: "🏖️ Marokko",
+            factLabel: "💡 Wist je dit?"
+        },
+        ar: {
+            hint: "←  →  الأسهم أو المسح",
+            slides: [
+                { title: `👋 مرحباً، أنا ${personal.name}`, subtitle: `أهلاً بك في عرضي. هذه قصتي.`, profile: true },
+                { title: "🌍 معلومات عني", subtitle: `عمري ${personal.age} سنة، ولدت في <strong>${personal.birthplace}</strong>. قطتي اسمها ${personal.pet}.`, cat: true },
+                { title: "🎓 المدرسة", subtitle: `<strong>${personal.school}</strong> · مادتي المفضلة: <strong>${personal.favoriteSubject}</strong>` }, // dream removed
+                { title: "🏀 هواياتي", subtitle: "اضغط على أي هواية لمعرفة المزيد!", hobbiesList: true },
+                { title: "🌟 أحلامي", subtitle: "ما أريد تحقيقه في المستقبل:", dreamsList: true },
+                { title: "👨‍👩‍👧‍👦 عائلتي", subtitle: personal.family.text, familySlide: true },
+                { title: "🌮 طعامي المفضل", subtitle: `أحب <strong>${personal.favoriteFood}</strong>! اضغط على الزر.`, foodSlide: true },
+                { title: "🏖️ أفضل عطلة", subtitle: `شواطئ <strong>المغرب</strong> كانت رائعة.`, vacationSlide: true },
+                { title: "✨ شكراً", subtitle: `كيف يصفني الآخرون؟ ${personal.description}`, finalSlide: true }
+            ],
+            hobbies: personal.hobbies.map(h => ({ ...h, name: h.name === "Basketball" ? "كرة السلة" : h.name === "Chilling" ? "الاسترخاء" : "كرة القدم" })),
+            dreams: [
+                "👨‍💼 بدء مشروعي الخاص",
+                "✈️ السفر إلى العديد من البلدان",
+                "🏀 احتراف كرة السلة؟ ربما!",
+                "💻 تعلم البرمجة لصنع التطبيقات"
+            ],
+            foodTitle: "🌮 تاكو!",
+            familyTitle: "شجرة العائلة",
+            familyMessage: personal.family.text,
+            familyTree: personal.family.tree,
+            surpriseTitle: "🎉 معلومة",
+            surpriseBtnText: "🎲 فاجئني",
+            restartBtnText: "⟳ إعادة التشغيل",
+            foodBtnText: "🌮 شاهد الصورة",
+            familyBtnText: "🌳 أظهر الشجرة",
+            vacationTitle: "🏖️ المغرب",
+            factLabel: "💡 هل تعلم؟"
+        },
+        ber: {
+            hint: "←  →  ⵉⵙⴻⴳⴳⴰⵙⵏ ⵏⵖ ⵙⵡⵉⴱ",
+            slides: [
+                { title: `ⴰⵣⵓⵍ ⴰⴱⴰⵔⴽⴰⵛ, ⵏⴻⴽ ⴷ ${personal.name}`, subtitle: `ⴰⵏⵙⵓⴼ ⵖⵔ ⵜⵉⵀⵓⴷⵜ-ⵉⵡ. ⴷ ⴰⵎⴰⵀⵉⵍ-ⴰⴳⵉ.`, profile: true },
+                { title: "ⵖⴻⴼ-ⵉ", subtitle: `ⴷ ${personal.age} ⵏ ⵢⵉⵙⴻⴳⴳⴰⵙⵏ, ⵍⵓⵍⵉⵜ ⴷⴻⴳ <strong>${personal.birthplace}</strong>. ⴰⵇⴻⵔⵔⵓ-ⵉⵡ ⴷ ⴰⵎⵛⵉⵛ ⵉⵙⴻⵎ ${personal.pet}.`, cat: true },
+                { title: "ⴰⵖⴻⵔⴱⴰⵣ", subtitle: `<strong>${personal.school}</strong> · ⵜⴰⵙⴻⵔⵜⴰⵢⵜ ⵉ ⵃⴻⵎⵎⵍⴻⵖ: <strong>${personal.favoriteSubject}</strong>` }, // dream removed
+                { title: "ⵉⵀⵓⵡⵡⴰⵔ-ⵉⵡ", subtitle: "ⵙⵉⵜ ⵖⴻⴼ ⵢⴰⵍ ⵉⵀⵓⵡⵉ ⴰⴽⴽⴻⵏ ⴰⴷ ⵜⵉⵙⵙⵉⵏⴻⴹ ⵓⴳⴰⵔ!", hobbiesList: true },
+                { title: "ⵜⵉⵔⴳⴰ-ⵉⵡ", subtitle: "ⴰⵢⴻⵏ ⴰⵔⴰ ⴷ-ⵉⵙⵙⵡⴻⵖ ⴷⵉ ⵜⵉⴽⵛⵉ:", dreamsList: true },
+                { title: "ⵜⵡⴰⵛⵓⵍⵜ-ⵉⵡ", subtitle: personal.family.text, familySlide: true },
+                { title: "ⵉⵎⴻⵣⵍⵉ-ⵉⵡ", subtitle: `ⵃⴻⵎⵎⵍⴻⵖ ⴰⵟⴰⵙ <strong>${personal.favoriteFood}</strong>! ⵙⵉⵜ ⵖⴻⴼ ⵜⵇⴻⴼⴼⴰⵕⵜ.`, foodSlide: true },
+                { title: "ⵜⴰⵎⵍⵉⵍⵜ ⵜⴰⵎⴻⵇⵔⴰⵏⵜ", subtitle: `ⵉⴱⴻⵕⵕⵉ ⵏ <strong>ⵎⴻⵕⵕⵓⴽ</strong> ⴷ ⵡⵉⵏ ⵉⵖⵡⴻⵢⵢⴻⵏ.`, vacationSlide: true },
+                { title: "ⵜⴰⵏⴻⵎⵎⵉⵔⵜ", subtitle: `ⴰⵎⴻⴽ ⵉⵢⵉ-ⴷ ⵇⵇⴰⵔⴻⵏ ⵡⵉⵢⴰⴹ? ${personal.description}`, finalSlide: true }
+            ],
+            hobbies: [
+                { icon: "🏀", name: "ⵜⴰⴽⵓⵔⵜ ⵏ ⵜⵓⵙⵙⵉ", desc: "ⵙⴱⵓⵔⵜ ⴷ ⵜⴰⵡⵡⵓⵍⵜ", why: "ⵜⴰⴽⵓⵔⵜ ⵏ ⵜⵓⵙⵙⵉ ⵜⵃⴻⵎⵎⵍ-ⵜⵜ ⴰⵟⴰⵙ. ⵜⵜⵓⵔⴰⵔⴻⵖ-ⵜⵜ-ⵉⴷ ⵖⴻⵔ ⵉⵎⴻⴷⴷⵓⴽⴰⵍ-ⵉⵡ.", img: "https://i.ibb.co/xth45RH0/basketball-2258651-1280.jpg" },
+                { icon: "🤝", name: "ⴰⵙⵇⴰⵎⵓ", desc: "ⴻⵙⵜⴻⵔⵔⴰⵃ ⴷ ⵉⵎⴻⴷⴷⵓⴽⴰⵍ", why: "ⵏⵃⴻⵎⵎⴻⵍ ⴰⴷ ⵏⵉⵍⵉ ⴷ ⵉⵎⴻⴷⴷⵓⴽⴰⵍ, ⴰⴷ ⵏⴹⵃⴰⴽ, ⴰⴷ ⵏⵉⵍⵉ ⴷ ⵉⵄⴷⵉⵍⴻⵏ.", img: "https://i.ibb.co/q3JyFXV4/XXj3yg9qd-Wgang-m.jpg" },
+                { icon: "⚽", name: "ⵜⴰⴽⵓⵔⵜ ⵏ ⵓⴹⴰⵔ", desc: "ⴰⵎⴰⵀⵉⵍ ⴰⵎⴻⵇⵇⵔⴰⵏ", why: "ⵜⴰⴽⵓⵔⵜ ⵏ ⵓⴹⴰⵔ ⴷ ⵜⴰⵎⴰⵔⴰ ⵏ ⵓⵃⴱⵉⴱ. ⵜⵜⵓⵔⴰⵔⴻⵖ-ⵜⵜ ⴷⴻⴳ ⵓⵃⴱⵉⴱ ⵏ ⵓⵖⴻⵔⴱⴰⵣ.", img: "https://i.ibb.co/S4Nj9H1r/fc-barcelona-tickets-880x660.jpg" }
+            ],
+            dreams: [
+                "👨‍💼 ⴱⴷⵓⵖ ⴰⵎⵡⴰⵏⵉⵙ-ⵉⵡ",
+                "✈️ ⵓⵏⵓⵖ ⵖⴻⵔ ⵜⵎⵓⵔⴰ ⵏ ⵡⴰⴷⴷⴰ",
+                "🏀 ⴰⴷ ⵉⵄⴻⵛ ⵜⴰⴽⵓⵔⵜ ⵏ ⵜⵓⵙⵙⵉ ? ⴰⵀⴰⵜ!",
+                "💻 ⵍⴻⵎⴷⴻⴹ ⴰⵙⴻⵖⵜⵉ ⴰⴽⴽⴻⵏ ⴰⴷ ⵙⵏⵓⵍⴼⵓⴹ ⵉⵙⵏⴰⵙⴻⵏ"
+            ],
+            foodTitle: "🌮 ⵜⴰⴽⵓⵙ!",
+            familyTitle: "ⵜⴰⵙⴻⴽⵍⵓⵜ ⵏ ⵜⵡⴰⵛⵓⵍⵜ",
+            familyMessage: personal.family.text,
+            familyTree: personal.family.tree,
+            surpriseTitle: "🎉 ⵍⴻⵇⵊⴰ",
+            surpriseBtnText: "🎲 ⵙⵙⴻⴽⵛⴻⵎ-ⵉⵢⵉ-ⴷ",
+            restartBtnText: "⟳ ⵙⵏⵓⵍⴼⴻⴷ-ⴷ",
+            foodBtnText: "🌮 ⵡⴰⵍⵉ ⵜⵓⴳⵏⴰ",
+            familyBtnText: "🌳 ⵙⴽⴻⵏ ⵜⴰⵙⴻⴽⵍⵓⵜ",
+            vacationTitle: "🏖️ ⵎⴻⵕⵕⵓⴽ",
+            factLabel: "💡 ⵜⵉⵙⵙⵉⵏⴻⵖ?"
+        }
+    };
+
+    let currentLang = 'en';
+    let currentSlideIndex = 0;
+    let slidesCount = 0;
+    let slidesData = [];
+
+    const sliderEl = document.getElementById('slider');
+    const progressBar = document.getElementById('progressBar');
+    const dotsContainer = document.getElementById('dotsContainer');
+    const themeToggle = document.getElementById('themeToggle');
+    const langSelect = document.getElementById('langSelect');
+    const hintMsgSpan = document.getElementById('hintMsg');
+    const modal = document.getElementById('dynamicModal');
+    const modalTitle = document.getElementById('modalTitle');
+    const modalBody = document.getElementById('modalBody');
+    const closeModalBtn = document.getElementById('closeModalBtn');
+
+    function initTheme() {
+        const saved = localStorage.getItem('theme');
+        if (saved === 'dark') document.body.classList.add('dark');
+        updateThemeIcon(saved === 'dark');
+    }
+    function updateThemeIcon(isDark) {
+        const icon = themeToggle.querySelector('i');
+        icon.className = isDark ? 'fas fa-sun' : 'fas fa-moon';
+    }
+    function toggleTheme() {
+        document.body.classList.toggle('dark');
+        const isDark = document.body.classList.contains('dark');
+        localStorage.setItem('theme', isDark ? 'dark' : 'light');
+        updateThemeIcon(isDark);
+    }
+
+    function showModal(title, html) {
+        modalTitle.innerText = title;
+        modalBody.innerHTML = html;
+        modal.style.display = 'flex';
+    }
+    function closeModal() {
+        modal.style.display = 'none';
+        modalBody.innerHTML = '';
+    }
+
+    let lastSurprise = -1;
+    function randomFact() {
+        const facts = personal.funFacts;
+        if (facts.length === 0) return "No facts";
+        let idx;
+        do { idx = Math.floor(Math.random() * facts.length); } while (idx === lastSurprise && facts.length > 1);
+        lastSurprise = idx;
+        return facts[idx];
+    }
+
+    let bubbleInterval = null, currentBubbleField = null;
+    function startBubbles(field) {
+        if (bubbleInterval) clearInterval(bubbleInterval);
+        currentBubbleField = field;
+        for (let i = 0; i < 6; i++) setTimeout(() => createBubble(field), i * 400);
+        bubbleInterval = setInterval(() => {
+            if (currentBubbleField && document.body.contains(currentBubbleField)) createBubble(currentBubbleField);
+            else clearInterval(bubbleInterval);
+        }, 3000);
+    }
+    function stopBubbles() {
+        if (bubbleInterval) { clearInterval(bubbleInterval); bubbleInterval = null; }
+        currentBubbleField = null;
+    }
+    function createBubble(field) {
+        const bubble = document.createElement('div');
+        bubble.className = 'q-bubble';
+        bubble.textContent = personal.bubbleMessages[Math.floor(Math.random() * personal.bubbleMessages.length)];
+        bubble.style.left = `${Math.random() * 90}%`;
+        bubble.style.bottom = '-30px';
+        bubble.style.animationDuration = `${Math.random() * 8 + 8}s`;
+        bubble.style.animationDelay = `${Math.random() * 2}s`;
+        field.appendChild(bubble);
+        bubble.addEventListener('animationend', () => bubble.remove());
+    }
+
+    function buildSlides() {
+        const data = translations[currentLang];
+        slidesData = data.slides;
+        slidesCount = slidesData.length;
+        sliderEl.innerHTML = '';
+
+        slidesData.forEach((slide, idx) => {
+            const slideDiv = document.createElement('div');
+            slideDiv.className = 'slide';
+            if (idx === currentSlideIndex) slideDiv.classList.add('active');
+
+            const card = document.createElement('div');
+            card.className = 'slide-card';
+
+            if (slide.profile) {
+                const img = document.createElement('img');
+                img.src = personal.profileImg;
+                img.alt = "Abdullah";
+                img.className = "profile-img";
+                card.appendChild(img);
+            }
+
+            const title = document.createElement('h1');
+            title.className = 'title';
+            title.innerHTML = slide.title;
+            card.appendChild(title);
+
+            const subtitle = document.createElement('div');
+            subtitle.className = 'subtitle';
+            subtitle.innerHTML = slide.subtitle;
+            card.appendChild(subtitle);
+
+            if (slide.cat) {
+                const catImg = document.createElement('img');
+                catImg.src = personal.catImg;
+                catImg.alt = "Miesh Miesh";
+                catImg.className = "cat-img";
+                catImg.onclick = () => showModal("🐱 Miesh Miesh", `<img src="${personal.catImg}" class="modal-img"><p>My cat Miesh Miesh is super cute!</p>`);
+                card.appendChild(catImg);
+            }
+
+            if (slide.hobbiesList) {
+                const grid = document.createElement('div');
+                grid.className = 'grid';
+                data.hobbies.forEach(h => {
+                    const cardEl = document.createElement('div');
+                    cardEl.className = 'card';
+                    cardEl.innerHTML = `<h3>${h.icon} ${h.name}</h3><p>${h.desc}</p>`;
+                    cardEl.onclick = () => showModal(`💚 ${h.name}`, `<img src="${h.img}" class="modal-img"><p>${h.why}</p>`);
+                    grid.appendChild(cardEl);
+                });
+                card.appendChild(grid);
+            }
+
+            if (slide.dreamsList) {
+                const grid = document.createElement('div');
+                grid.className = 'grid';
+                data.dreams.forEach(dream => {
+                    const cardEl = document.createElement('div');
+                    cardEl.className = 'card';
+                    cardEl.innerHTML = `<h3>✨</h3><p>${dream}</p>`;
+                    grid.appendChild(cardEl);
+                });
+                card.appendChild(grid);
+            }
+
+            const btnGroup = document.createElement('div');
+            btnGroup.className = 'btn-group';
+
+            if (slide.foodSlide) {
+                const btn = document.createElement('button');
+                btn.className = 'special-btn';
+                btn.innerHTML = `<i class="fas fa-utensils"></i> ${data.foodBtnText}`;
+                btn.onclick = () => showModal(data.foodTitle, `<img src="${personal.tacoImg}" class="modal-img"><p>Fresh tacos with meat, cheese, salsa and vegetables.</p>`);
+                btnGroup.appendChild(btn);
+            }
+            if (slide.vacationSlide) {
+                const gallery = document.createElement('div');
+                gallery.className = 'gallery';
+                personal.vacationPhotos.forEach(url => {
+                    const img = document.createElement('img');
+                    img.src = url;
+                    img.onclick = () => showModal(data.vacationTitle, `<img src="${url}" class="modal-img"><p>Beautiful Morocco</p>`);
+                    gallery.appendChild(img);
+                });
+                card.appendChild(gallery);
+                const flagImg = document.createElement('img');
+                flagImg.src = personal.moroccoFlag;
+                flagImg.alt = "Flag of Morocco";
+                flagImg.className = "flag-icon";
+                card.appendChild(flagImg);
+                const hint = document.createElement('div');
+                hint.className = 'gallery-hint';
+                hint.innerHTML = '🔍 Click on a photo to enlarge';
+                card.appendChild(hint);
+            }
+            if (slide.familySlide) {
+                const btn = document.createElement('button');
+                btn.className = 'special-btn';
+                btn.innerHTML = `<i class="fas fa-heart"></i> ${data.familyBtnText}`;
+                btn.onclick = () => showModal(data.familyTitle, `<div class="family-tree"><pre>${data.familyTree}</pre></div><p>${data.familyMessage}</p>`);
+                btnGroup.appendChild(btn);
+            }
+            if (slide.finalSlide) {
+                const surpriseBtn = document.createElement('button');
+                surpriseBtn.className = 'special-btn';
+                surpriseBtn.innerHTML = `<i class="fas fa-gift"></i> ${data.surpriseBtnText}`;
+                surpriseBtn.onclick = () => showModal(data.surpriseTitle, `<p>🎉 ${randomFact()}</p>`);
+                btnGroup.appendChild(surpriseBtn);
+                const restartBtn = document.createElement('button');
+                restartBtn.className = 'special-btn';
+                restartBtn.innerHTML = `<i class="fas fa-sync-alt"></i> ${data.restartBtnText}`;
+                restartBtn.onclick = () => { currentSlideIndex = 0; updateSlideActive(); updateProgress(); updateDots(); closeModal(); };
+                btnGroup.appendChild(restartBtn);
+            }
+
+            if (btnGroup.children.length > 0) card.appendChild(btnGroup);
+
+            if (slide.finalSlide) {
+                const bubbleField = document.createElement('div');
+                bubbleField.className = 'bubble-field';
+                slideDiv.appendChild(bubbleField);
+                if (idx === currentSlideIndex) startBubbles(bubbleField);
+            }
+
+            slideDiv.appendChild(card);
+            sliderEl.appendChild(slideDiv);
+        });
+
+        updateDots();
+        updateProgress();
+        updateSlideActive();
+    }
+
+    function updateSlideActive() {
+        const allSlides = document.querySelectorAll('.slide');
+        allSlides.forEach((s, i) => s.classList.toggle('active', i === currentSlideIndex));
+        sliderEl.style.transform = `translateX(-${currentSlideIndex * 100}vw)`;
+
+        const final = sliderEl.children[slidesCount - 1];
+        if (final && final.classList.contains('active')) {
+            const bubbleField = final.querySelector('.bubble-field');
+            if (bubbleField && !bubbleInterval) startBubbles(bubbleField);
+        } else { stopBubbles(); }
+    }
+
+    function updateProgress() { progressBar.style.width = `${((currentSlideIndex+1)/slidesCount)*100}%`; }
+    function updateDots() {
+        dotsContainer.innerHTML = '';
+        for (let i = 0; i < slidesCount; i++) {
+            const dot = document.createElement('div');
+            dot.classList.add('dot');
+            if (i === currentSlideIndex) dot.classList.add('active');
+            dot.onclick = () => { currentSlideIndex = i; updateSlideActive(); updateProgress(); updateDots(); };
+            dotsContainer.appendChild(dot);
+        }
+    }
+    function changeSlide(delta) {
+        const newIndex = currentSlideIndex + delta;
+        if (newIndex >= 0 && newIndex < slidesCount) {
+            currentSlideIndex = newIndex;
+            updateSlideActive();
+            updateProgress();
+            updateDots();
+        }
+    }
+    function setLanguage(lang) {
+        currentLang = lang;
+        const oldIdx = currentSlideIndex;
+        buildSlides();
+        currentSlideIndex = Math.min(oldIdx, slidesCount - 1);
+        updateSlideActive();
+        updateProgress();
+        updateDots();
+        hintMsgSpan.innerHTML = `<i class="fas fa-arrow-left"></i> <i class="fas fa-arrow-right"></i> ${translations[lang].hint}`;
+        if (lang === 'ber') {
+            document.body.classList.add('tifinagh');
+        } else {
+            document.body.classList.remove('tifinagh');
+        }
+    }
+
+    function onKey(e) {
+        if (e.key === 'ArrowRight') { e.preventDefault(); changeSlide(1); }
+        else if (e.key === 'ArrowLeft') { e.preventDefault(); changeSlide(-1); }
+    }
+    let touchStart = 0;
+    function onTouchStart(e) { touchStart = e.changedTouches[0].screenX; }
+    function onTouchEnd(e) {
+        const diff = e.changedTouches[0].screenX - touchStart;
+        if (Math.abs(diff) > 50) changeSlide(diff > 0 ? -1 : 1);
+    }
+
+    themeToggle.addEventListener('click', toggleTheme);
+    langSelect.addEventListener('change', (e) => setLanguage(e.target.value));
+    document.addEventListener('keydown', onKey);
+    document.addEventListener('touchstart', onTouchStart);
+    document.addEventListener('touchend', onTouchEnd);
+    closeModalBtn.addEventListener('click', closeModal);
+    window.addEventListener('click', (e) => { if (e.target === modal) closeModal(); });
+
+    initTheme();
+    setLanguage('en');
+    langSelect.value = 'en';
+</script>
+</body>
+</html>
