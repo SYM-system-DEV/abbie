@@ -146,7 +146,6 @@
             z-index: 2;
         }
 
-        /* Improved profile photo */
         .profile-img {
             width: 150px;
             height: 150px;
@@ -162,7 +161,6 @@
             box-shadow: 0 0 35px var(--neon-blue);
         }
 
-        /* Improved cat photo frame */
         .cat-img {
             width: 160px;
             height: 160px;
@@ -275,7 +273,6 @@
             transform: scale(0.97);
         }
 
-        /* Gallery improvements */
         .gallery {
             display: flex;
             flex-wrap: wrap;
@@ -318,7 +315,6 @@
             color: var(--text-light);
         }
 
-        /* Moroccan flag */
         .flag-icon {
             width: 80px;
             height: auto;
@@ -370,7 +366,6 @@
             }
         }
 
-        /* Modal improvements for all images */
         .modal {
             display: none;
             position: fixed;
@@ -395,6 +390,7 @@
             border: 1px solid var(--neon-blue);
             box-shadow: 0 0 30px rgba(0,180,216,0.3);
             color: white;
+            position: relative;
         }
         .modal-content h3 {
             color: var(--neon-blue);
@@ -422,6 +418,48 @@
         }
         .close-modal:hover {
             background: var(--neon-blue-dark);
+        }
+
+        /* Tiny R button - top-left, extra small */
+        .tiny-r-btn {
+            position: absolute;
+            top: 8px;
+            left: 8px;
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            background: var(--neon-blue);
+            border: none;
+            color: white;
+            font-size: 10px;
+            font-weight: bold;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: 0.2s;
+            z-index: 10;
+            line-height: 1;
+        }
+        .tiny-r-btn:hover {
+            background: var(--neon-blue-dark);
+            transform: scale(1.05);
+        }
+
+        .friend-btn {
+            background: var(--neon-blue);
+            border: none;
+            color: white;
+            font-size: 0.9rem;
+            padding: 0.4rem 1rem;
+            border-radius: 40px;
+            cursor: pointer;
+            margin: 0.5rem;
+            transition: 0.2s;
+        }
+        .friend-btn:hover {
+            background: var(--neon-blue-dark);
+            transform: scale(1.02);
         }
 
         .progress-bar {
@@ -543,10 +581,11 @@
         pet: "Miesh Miesh (cat)",
         school: "Avantis College, grade 1",
         favoriteSubject: "English",
+        futureDream: "Start my own business",
         hobbies: [
-            { icon: "🏀", name: "Basketball", desc: "Sport & teamwork", why: "Basketball is fast and dynamic. I love playing it with friends.", img: "https://i.ibb.co/xth45RH0/basketball-2258651-1280.jpg" },
-            { icon: "🤝", name: "Chilling", desc: "Relaxing with friends", why: "Being together, laughing and doing fun things without stress.", img: "https://i.ibb.co/q3JyFXV4/XXj3yg9qd-Wgang-m.jpg" },
-            { icon: "⚽", name: "Football", desc: "Sporty", why: "I play football often on the schoolyard. It's just fun.", img: "https://i.ibb.co/S4Nj9H1r/fc-barcelona-tickets-880x660.jpg" }
+            { icon: "🏀", name: "Basketball", desc: "Sport & teamwork", why: "Basketball is fast and dynamic. I love playing it with friends.", img: "https://i.ibb.co/xth45RH0/basketball-2258651-1280.jpg", special: false },
+            { icon: "🤝", name: "Chilling", desc: "Relaxing with friends", why: "Being together, laughing and doing fun things without stress.", img: "https://i.ibb.co/q3JyFXV4/XXj3yg9qd-Wgang-m.jpg", special: true },
+            { icon: "⚽", name: "Football", desc: "Sporty", why: "I play football often on the schoolyard. It's just fun.", img: "https://i.ibb.co/S4Nj9H1r/fc-barcelona-tickets-880x660.jpg", special: false }
         ],
         dreams: [
             "👨‍💼 Start my own business",
@@ -578,14 +617,14 @@
         bubbleMessages: ["?Why?", "?How?", "?Tell me!", "?Really?", "?Cool!", "?What else?", "?When?", "?Where?"]
     };
 
-    // Translations – dream removed from school slide
+    // Translations – default English, with Dutch, Arabic, and Berber (Tifinagh)
     const translations = {
         en: {
             hint: "←  →  arrows or swipe",
             slides: [
                 { title: `👋 Hello, I'm ${personal.name}`, subtitle: `Welcome to my presentation. This is my story.`, profile: true },
                 { title: "🌍 About me", subtitle: `I am ${personal.age} years old, born in <strong>${personal.birthplace}</strong>. My cat's name is ${personal.pet}.`, cat: true },
-                { title: "🎓 School", subtitle: `<strong>${personal.school}</strong> · Favorite subject: <strong>${personal.favoriteSubject}</strong>` }, // dream removed
+                { title: "🎓 School & Future", subtitle: `<strong>${personal.school}</strong> · Favorite subject: <strong>${personal.favoriteSubject}</strong><br>Dream: <strong>${personal.futureDream}</strong>` },
                 { title: "🏀 My hobbies", subtitle: "Click on a hobby to learn more!", hobbiesList: true },
                 { title: "🌟 My dreams", subtitle: "What I want to achieve in the future:", dreamsList: true },
                 { title: "👨‍👩‍👧‍👦 My family", subtitle: personal.family.text, familySlide: true },
@@ -612,7 +651,7 @@
             slides: [
                 { title: `👋 Hallo, ik ben ${personal.name}`, subtitle: `Welkom bij mijn presentatie. Dit is mijn verhaal.`, profile: true },
                 { title: "🌍 Over mij", subtitle: `Ik ben ${personal.age} jaar, geboren in <strong>${personal.birthplace}</strong>. Mijn kat heet ${personal.pet}.`, cat: true },
-                { title: "🎓 School", subtitle: `<strong>${personal.school}</strong> · Lievelingsvak: <strong>${personal.favoriteSubject}</strong>` }, // dream removed
+                { title: "🎓 School & Toekomst", subtitle: `<strong>${personal.school}</strong> · Lievelingsvak: <strong>${personal.favoriteSubject}</strong><br>Droom: <strong>${personal.futureDream}</strong>` },
                 { title: "🏀 Mijn hobby's", subtitle: "Klik op een hobby om meer te weten!", hobbiesList: true },
                 { title: "🌟 Mijn dromen", subtitle: "Dit wil ik later bereiken:", dreamsList: true },
                 { title: "👨‍👩‍👧‍👦 Mijn familie", subtitle: personal.family.text, familySlide: true },
@@ -644,7 +683,7 @@
             slides: [
                 { title: `👋 مرحباً، أنا ${personal.name}`, subtitle: `أهلاً بك في عرضي. هذه قصتي.`, profile: true },
                 { title: "🌍 معلومات عني", subtitle: `عمري ${personal.age} سنة، ولدت في <strong>${personal.birthplace}</strong>. قطتي اسمها ${personal.pet}.`, cat: true },
-                { title: "🎓 المدرسة", subtitle: `<strong>${personal.school}</strong> · مادتي المفضلة: <strong>${personal.favoriteSubject}</strong>` }, // dream removed
+                { title: "🎓 المدرسة والمستقبل", subtitle: `<strong>${personal.school}</strong> · مادتي المفضلة: <strong>${personal.favoriteSubject}</strong><br>حلمي: <strong>${personal.futureDream}</strong>` },
                 { title: "🏀 هواياتي", subtitle: "اضغط على أي هواية لمعرفة المزيد!", hobbiesList: true },
                 { title: "🌟 أحلامي", subtitle: "ما أريد تحقيقه في المستقبل:", dreamsList: true },
                 { title: "👨‍👩‍👧‍👦 عائلتي", subtitle: personal.family.text, familySlide: true },
@@ -676,7 +715,7 @@
             slides: [
                 { title: `ⴰⵣⵓⵍ ⴰⴱⴰⵔⴽⴰⵛ, ⵏⴻⴽ ⴷ ${personal.name}`, subtitle: `ⴰⵏⵙⵓⴼ ⵖⵔ ⵜⵉⵀⵓⴷⵜ-ⵉⵡ. ⴷ ⴰⵎⴰⵀⵉⵍ-ⴰⴳⵉ.`, profile: true },
                 { title: "ⵖⴻⴼ-ⵉ", subtitle: `ⴷ ${personal.age} ⵏ ⵢⵉⵙⴻⴳⴳⴰⵙⵏ, ⵍⵓⵍⵉⵜ ⴷⴻⴳ <strong>${personal.birthplace}</strong>. ⴰⵇⴻⵔⵔⵓ-ⵉⵡ ⴷ ⴰⵎⵛⵉⵛ ⵉⵙⴻⵎ ${personal.pet}.`, cat: true },
-                { title: "ⴰⵖⴻⵔⴱⴰⵣ", subtitle: `<strong>${personal.school}</strong> · ⵜⴰⵙⴻⵔⵜⴰⵢⵜ ⵉ ⵃⴻⵎⵎⵍⴻⵖ: <strong>${personal.favoriteSubject}</strong>` }, // dream removed
+                { title: "ⴰⵖⴻⵔⴱⴰⵣ ⴷ ⴰⵙⵉⵔⴻⵎ", subtitle: `<strong>${personal.school}</strong> · ⵜⴰⵙⴻⵔⵜⴰⵢⵜ ⵉ ⵃⴻⵎⵎⵍⴻⵖ: <strong>${personal.favoriteSubject}</strong><br>ⴰⵙⵉⵔⴻⵎ-ⵉⵡ: <strong>${personal.futureDream}</strong>` },
                 { title: "ⵉⵀⵓⵡⵡⴰⵔ-ⵉⵡ", subtitle: "ⵙⵉⵜ ⵖⴻⴼ ⵢⴰⵍ ⵉⵀⵓⵡⵉ ⴰⴽⴽⴻⵏ ⴰⴷ ⵜⵉⵙⵙⵉⵏⴻⴹ ⵓⴳⴰⵔ!", hobbiesList: true },
                 { title: "ⵜⵉⵔⴳⴰ-ⵉⵡ", subtitle: "ⴰⵢⴻⵏ ⴰⵔⴰ ⴷ-ⵉⵙⵙⵡⴻⵖ ⴷⵉ ⵜⵉⴽⵛⵉ:", dreamsList: true },
                 { title: "ⵜⵡⴰⵛⵓⵍⵜ-ⵉⵡ", subtitle: personal.family.text, familySlide: true },
@@ -835,7 +874,38 @@
                     const cardEl = document.createElement('div');
                     cardEl.className = 'card';
                     cardEl.innerHTML = `<h3>${h.icon} ${h.name}</h3><p>${h.desc}</p>`;
-                    cardEl.onclick = () => showModal(`💚 ${h.name}`, `<img src="${h.img}" class="modal-img"><p>${h.why}</p>`);
+                    // For chilling hobby (special), add custom buttons inside modal
+                    if (h.name === "Chilling" || h.name === "Chillen" || h.name === "الاسترخاء" || h.name === "ⴰⵙⵇⴰⵎⵓ") {
+                        cardEl.onclick = () => {
+                            const modalHtml = `
+                                <div style="position: relative; min-height: 80px;">
+                                    <button class="tiny-r-btn" id="heartRBtn">R</button>
+                                    <img src="${h.img}" class="modal-img" alt="${h.name}" style="margin-top: 10px;">
+                                    <p>${h.why}</p>
+                                    <div style="margin-top: 15px;">
+                                        <button class="friend-btn" id="bestFriendBtn">Best Friend</button>
+                                    </div>
+                                </div>
+                            `;
+                            showModal(`💚 ${h.name}`, modalHtml);
+                            setTimeout(() => {
+                                const heartBtn = document.getElementById('heartRBtn');
+                                const friendBtn = document.getElementById('bestFriendBtn');
+                                if (heartBtn) {
+                                    heartBtn.onclick = () => {
+                                        showModal("💖 R", `<img src="https://i.ibb.co/d0b3PGwb/IMG-4798.jpg" class="modal-img" alt="R Image">`);
+                                    };
+                                }
+                                if (friendBtn) {
+                                    friendBtn.onclick = () => {
+                                        showModal("Best Friend", `<img src="https://i.ibb.co/ZsPR4wH/IMG-4702.jpg" class="modal-img" alt="Best Friend"><p>Mohamed is one of my best friends!</p>`);
+                                    };
+                                }
+                            }, 100);
+                        };
+                    } else {
+                        cardEl.onclick = () => showModal(`💚 ${h.name}`, `<img src="${h.img}" class="modal-img"><p>${h.why}</p>`);
+                    }
                     grid.appendChild(cardEl);
                 });
                 card.appendChild(grid);
