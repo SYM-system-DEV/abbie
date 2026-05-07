@@ -420,32 +420,6 @@
             background: var(--neon-blue-dark);
         }
 
-        /* Tiny R button - top-left, extra small */
-        .tiny-r-btn {
-            position: absolute;
-            top: 8px;
-            left: 8px;
-            width: 20px;
-            height: 20px;
-            border-radius: 50%;
-            background: var(--neon-blue);
-            border: none;
-            color: white;
-            font-size: 10px;
-            font-weight: bold;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            transition: 0.2s;
-            z-index: 10;
-            line-height: 1;
-        }
-        .tiny-r-btn:hover {
-            background: var(--neon-blue-dark);
-            transform: scale(1.05);
-        }
-
         .friend-btn {
             background: var(--neon-blue);
             border: none;
@@ -460,12 +434,6 @@
         .friend-btn:hover {
             background: var(--neon-blue-dark);
             transform: scale(1.02);
-        }
-
-        .tiny-credit {
-            font-size: 0.65rem;
-            margin-top: 8px;
-            opacity: 0.7;
         }
 
         .progress-bar {
@@ -572,7 +540,7 @@
 </div>
 
 <script>
-    // Personal data – updated image URLs
+    // Personal data
     const personal = {
         name: "Abdullah Abarkach",
         profileImg: "https://i.ibb.co/rKKMp3R4/image.jpg",
@@ -590,7 +558,7 @@
         futureDream: "Start my own business",
         hobbies: [
             { icon: "🏀", name: "Basketball", desc: "Sport & teamwork", why: "Basketball is fast and dynamic. I love playing it with friends.", img: "https://i.ibb.co/xth45RH0/basketball-2258651-1280.jpg", special: false },
-            { icon: "🤝", name: "Chilling", desc: "Relaxing with friends", why: "Being together, laughing and doing fun things without stress.", img: "https://i.ibb.co/q3JyFXV4/XXj3yg9qd-Wgang-m.jpg", special: true },
+            { icon: "🤝", name: "Chilling", desc: "Relaxing with friends", why: "Being together, laughing and doing fun things without stress. I have really nice friends!", img: "https://i.ibb.co/q3JyFXV4/XXj3yg9qd-Wgang-m.jpg", special: true },
             { icon: "⚽", name: "Football", desc: "Sporty", why: "I play football often on the schoolyard. It's just fun.", img: "https://i.ibb.co/S4Nj9H1r/fc-barcelona-tickets-880x660.jpg", special: false }
         ],
         dreams: [
@@ -616,14 +584,14 @@
             "😂 I am funny and social.",
             "🎂 I am 13 years old.",
             "📍 I was born in Amsterdam-West.",
-            "🤝 Chilling with friends is the best.",
+            "🤝 Chilling with my nice friends is the best.",
             "🏀 I play basketball every week on the square.",
             "🌮 I love tacos with cheese."
         ],
         bubbleMessages: ["?Why?", "?How?", "?Tell me!", "?Really?", "?Cool!", "?What else?", "?When?", "?Where?"]
     };
 
-    // Translations – default English, with Dutch, Arabic, and Berber (Tifinagh)
+    // Translations
     const translations = {
         en: {
             hint: "←  →  arrows or swipe",
@@ -650,7 +618,9 @@
             foodBtnText: "🌮 See photo",
             familyBtnText: "🌳 Show tree",
             vacationTitle: "🏖️ Morocco",
-            factLabel: "💡 Did you know?"
+            factLabel: "💡 Did you know?",
+            friendsModalTitle: "🤝 My Nice Friends",
+            friendsModalText: "I have really nice friends who I enjoy spending time with. We laugh, play sports, and have great times together!"
         },
         nl: {
             hint: "←  →  pijltjes of swipe",
@@ -682,7 +652,9 @@
             foodBtnText: "🌮 Bekijk foto",
             familyBtnText: "🌳 Bekijk stamboom",
             vacationTitle: "🏖️ Marokko",
-            factLabel: "💡 Wist je dit?"
+            factLabel: "💡 Wist je dit?",
+            friendsModalTitle: "🤝 Mijn Leuke Vrienden",
+            friendsModalText: "Ik heb echt leuke vrienden met wie ik graag tijd doorbreng. We lachen, sporten en hebben geweldige tijden samen!"
         },
         ar: {
             hint: "←  →  الأسهم أو المسح",
@@ -714,7 +686,9 @@
             foodBtnText: "🌮 شاهد الصورة",
             familyBtnText: "🌳 أظهر الشجرة",
             vacationTitle: "🏖️ المغرب",
-            factLabel: "💡 هل تعلم؟"
+            factLabel: "💡 هل تعلم؟",
+            friendsModalTitle: "🤝 أصدقائي اللطفاء",
+            friendsModalText: "لدي أصدقاء لطفاء حقاً أستمتع بقضاء الوقت معهم. نضحك ونلعب الرياضة ونقضي أوقاتاً رائعة معاً!"
         },
         ber: {
             hint: "←  →  ⵉⵙⴻⴳⴳⴰⵙⵏ ⵏⵖ ⵙⵡⵉⴱ",
@@ -750,7 +724,9 @@
             foodBtnText: "🌮 ⵡⴰⵍⵉ ⵜⵓⴳⵏⴰ",
             familyBtnText: "🌳 ⵙⴽⴻⵏ ⵜⴰⵙⴻⴽⵍⵓⵜ",
             vacationTitle: "🏖️ ⵎⴻⵕⵕⵓⴽ",
-            factLabel: "💡 ⵜⵉⵙⵙⵉⵏⴻⵖ?"
+            factLabel: "💡 ⵜⵉⵙⵙⵉⵏⴻⵖ?",
+            friendsModalTitle: "🤝 ⵉⵎⴻⴷⴷⵓⴽⴰⵍ-ⵉⵡ",
+            friendsModalText: "ⵙⵄⵉⴷⵖ ⵙ ⵉⵎⴻⴷⴷⵓⴽⴰⵍ-ⵉⵡ ⵏⵏⴰ ⵃⴻⵎⵎⵍⴻⵖ ⴰⴷ ⵙⵄⴷⵉⵖ ⴰⴽⵉⴷ-ⵙⴻⵏ. ⵏⴹⵃⴰⴽ, ⵏⵜⵜⵓⵔⴰⵔ, ⴷ ⵏⵙⵄⵓ ⵍⴻⵡⵇⴰⵜ ⵉⵄⴷⵉⵍⴻⵏ!"
         }
     };
 
@@ -880,31 +856,22 @@
                     const cardEl = document.createElement('div');
                     cardEl.className = 'card';
                     cardEl.innerHTML = `<h3>${h.icon} ${h.name}</h3><p>${h.desc}</p>`;
-                    // For chilling hobby (special), add custom buttons inside modal
+                    // For chilling hobby - show friends modal
                     if (h.name === "Chilling" || h.name === "Chillen" || h.name === "الاسترخاء" || h.name === "ⴰⵙⵇⴰⵎⵓ") {
                         cardEl.onclick = () => {
                             const modalHtml = `
-                                <div style="position: relative; min-height: 80px;">
-                                    <button class="tiny-r-btn" id="heartRBtn">R</button>
-                                    <img src="${h.img}" class="modal-img" alt="${h.name}" style="margin-top: 10px;">
-                                    <p>${h.why}</p>
-                                    <div style="margin-top: 15px;">
-                                        <button class="friend-btn" id="bestFriendBtn">Best Friend</button>
-                                    </div>
+                                <img src="${h.img}" class="modal-img" alt="${h.name}">
+                                <p>${h.why}</p>
+                                <div style="margin-top: 15px;">
+                                    <button class="friend-btn" id="friendsBtn">My Nice Friends 👥</button>
                                 </div>
                             `;
                             showModal(`💚 ${h.name}`, modalHtml);
                             setTimeout(() => {
-                                const heartBtn = document.getElementById('heartRBtn');
-                                const friendBtn = document.getElementById('bestFriendBtn');
-                                if (heartBtn) {
-                                    heartBtn.onclick = () => {
-                                        showModal("💖 R", `<img src="https://i.ibb.co/d0b3PGwb/IMG-4798.jpg" class="modal-img" alt="R Image">`);
-                                    };
-                                }
-                                if (friendBtn) {
-                                    friendBtn.onclick = () => {
-                                        showModal("Best Friend", `<img src="https://i.ibb.co/ZsPR4wH/IMG-4702.jpg" class="modal-img" alt="Best Friend"><p>Mohamed is one of my best friends!</p><div class="tiny-credit">🌐 this website was made by Mohamed</div>`);
+                                const friendsBtn = document.getElementById('friendsBtn');
+                                if (friendsBtn) {
+                                    friendsBtn.onclick = () => {
+                                        showModal(data.friendsModalTitle, `<p>${data.friendsModalText}</p>`);
                                     };
                                 }
                             }, 100);
